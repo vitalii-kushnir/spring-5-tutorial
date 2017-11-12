@@ -1,7 +1,8 @@
 package kusha.spring5tutorial.domain;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,24 +13,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 
-@Entity
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(exclude = { "recipe" })
+@Entity
 public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Recipe recipe;
+    private String description;
 
     private BigDecimal amount;
 
-    private String description;
-
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure uom;
+
+    @ManyToOne
+    private Recipe recipe;
 
     public Ingredient() {
     }
