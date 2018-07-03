@@ -1,6 +1,5 @@
 package kusha.spring5tutorial.service;
 
-import kusha.spring5tutorial.commands.RecipeCommand;
 import kusha.spring5tutorial.converters.RecipeCommandToRecipe;
 import kusha.spring5tutorial.converters.RecipeToRecipeCommand;
 import kusha.spring5tutorial.domain.Recipe;
@@ -16,14 +15,15 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 public class RecipeServiceImplTest {
+
     RecipeServiceImpl recipeService;
 
     @Mock
@@ -58,33 +58,13 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipeCoomandByIdTest() throws Exception {
-        Recipe recipe = new Recipe();
-        recipe.setId(1L);
-        Optional<Recipe> recipeOptional = Optional.of(recipe);
-
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
-
-        RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
-
-        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
-
-        RecipeCommand commandById = recipeService.findCommandById(1L);
-
-        assertNotNull("Null recipe returned", commandById);
-        verify(recipeRepository, times(1)).findById(anyLong());
-        verify(recipeRepository, never()).findAll();
-    }
-
-    @Test
     public void getRecipesTest() throws Exception {
 
         Recipe recipe = new Recipe();
         HashSet receipesData = new HashSet();
         receipesData.add(recipe);
 
-        when(recipeRepository.findAll()).thenReturn(receipesData);
+        when(recipeService.getRecipes()).thenReturn(receipesData);
 
         Set<Recipe> recipes = recipeService.getRecipes();
 
@@ -92,4 +72,5 @@ public class RecipeServiceImplTest {
         verify(recipeRepository, times(1)).findAll();
         verify(recipeRepository, never()).findById(anyLong());
     }
+
 }
